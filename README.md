@@ -1,14 +1,13 @@
-Apache Kafka Spring Boot Example
-===================================
-I - Creation d'une application spring boot
--------------------------------------------
-	- Spring web
-	- Spring for apache kafka
-	- Spring boot dev tools
+# Apache Kafka Spring Boot Example
 
-II - Activer kafka dans la classe principale avec @EnableKafka
-------------------------------------------------------------------
+## I - Creation d'une application spring boot
+- Spring web
+- Spring for apache kafka
+- Spring boot dev tools
 
+## II - Activer kafka dans la classe principale avec @EnableKafka
+
+```java
 package com.dev.spring.kafka;
 
 import org.springframework.boot.SpringApplication;
@@ -23,10 +22,11 @@ public class SpringBoot2ApacheKafkaTestApplication {
          SpringApplication.run(SpringBoot2ApacheKafkaTestApplication.class, args);
       }
 }
+```
 
-III - Creer un custom MessageRepository class
--------------------------------------------------
+## III - Creer un custom MessageRepository class
 
+```java
 package com.dev.spring.kafka.message.repository;
 
 import java.util.ArrayList;
@@ -46,9 +46,11 @@ public class MessageRepository {
           return list.toString();
        }
 }
+```
 
-IV - Creer une classe Message Producer
--------------------------------------------
+## IV - Creer une classe Message Producer
+
+```java
 package com.dev.spring.kafka.sender;
 
 import org.slf4j.Logger;
@@ -74,9 +76,11 @@ public class MessageProducer {
          kafkaTemplate.send(topic, message);
       }
 }
+```
 
-V - Creer une classe MessageConsumer
---------------------------------------
+## V - Creer une classe MessageConsumer
+
+```java
 package com.dev.spring.kafka.consumer;
 
 import org.slf4j.Logger;
@@ -101,8 +105,11 @@ public class MessageConsumer {
       }
 }
 
-VI - Creer un RestController avec le nom KafkaRestController
--------------------------------------------------------------
+```
+
+## VI - Creer un RestController avec le nom KafkaRestController
+
+```java
 package com.dev.spring.kafka.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,9 +142,11 @@ public class KafkaRestController {
          return messageRepo.getAllMessages() ;
       }
 }
+```
 
-VII - Creer le fichier proprietiés application.yml
----------------------------------------------------
+## VII - Creer le fichier proprietiés application.yml
+
+```yaml
 server:
   port: 9090
 
@@ -146,8 +155,7 @@ spring:
     producer:
       bootstrap-servers: localhost:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
-                  
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer                
     consumer:
       bootstrap-servers: localhost:9092
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -157,27 +165,34 @@ myapp:
     kafka:
       topic: myKafkaTest
 
-VIII - Commandes speciales
-------------------------------
-1 - Demarrer Zookeeper
-**************************
-$.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
-2 - Kafka setup
-*************************
-$.\bin\windows\kafka-server-start.bat .\config\server.properties
-3 - Creer un topic
-*************************
-$.\bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic kafkaBalita
+```
+## VIII - Commandes
 
-4 - Urls pour verification
-***************************
-♦ http:// localhost:9090/send?msg=I like
-♥ http:// localhost:9090/send?msg=to work on
-♦ http:// localhost:9090/send?msg=Kafka
-♥ http:// localhost:9090/send?msg=with Spring Boot
+### 1 - Demarrer Zookeeper
 
-   http://localhost:9090/getAll
+```bash
+bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+```
 
+### 2 - Kafka setup
 
+```bash
+.\bin\windows\kafka-server-start.bat .\config\server.properties
+```
+### 3 - Creer un topic
+```bash
+bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic kafkaBalita
+```
 
-docker run -it -p 9000:9000 -e KAFKA_BROKERCONNECT=<host:port,host:port>  obsidiandynamics/kafdrop
+### 4 - Urls pour verification
+
+- http:// localhost:9090/send?msg=I like
+- http:// localhost:9090/send?msg=to work on
+- http:// localhost:9090/send?msg=Kafka
+- http:// localhost:9090/send?msg=with Spring Boot
+
+- http://localhost:9090/getAll
+
+### 4 - Client pour apache kafka
+
+http://www.kafkatool.com/
